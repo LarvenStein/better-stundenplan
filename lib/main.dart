@@ -19,12 +19,12 @@ class MyApp extends StatelessWidget {
   final bool authenticationStatus;
 
   static final _defaultLightColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(1, 236, 151, 31), // #ec971f
+      seedColor: const Color.fromARGB(1, 197, 155, 49),  // #c59b31
       brightness: Brightness.light
   );
 
   static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(1, 236, 151, 31), // #ec971f
+      seedColor: const Color.fromARGB(1, 197, 155, 49), // #c59b31
       brightness: Brightness.dark
   );
 
