@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:html/parser.dart' as htmlParser;
 import 'package:html/dom.dart' as dom;
 
-Future<List<List<List<Map<String, String>>>>> getWeeklyStundenplan() async {
+Future<List<List<List<Map<String, String>>>>> getWeeklyStundenplan(String date) async {
   var prefs = await SharedPreferences.getInstance();
   String sessionId = prefs.getString("sessionId") ?? "";
 
   try {
     final response = await http.get(
-      Uri.parse("https://virtueller-stundenplan.org/page-5/"),
+      Uri.parse("https://virtueller-stundenplan.org/page-5/index.php?KlaBuDatum=$date"),
       headers: {
         'Cookie': 'PHPSESSID=$sessionId',
       },

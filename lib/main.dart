@@ -19,12 +19,12 @@ class MyApp extends StatelessWidget {
   final bool authenticationStatus;
 
   static final _defaultLightColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(1, 0, 122, 46), // #007a2e
+      seedColor: const Color.fromARGB(1, 236, 151, 31), // #ec971f
       brightness: Brightness.light
   );
 
   static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(1, 0, 122, 46), // #007a2e
+      seedColor: const Color.fromARGB(1, 236, 151, 31), // #ec971f
       brightness: Brightness.dark
   );
 
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       routes: <RouteBase>[
         GoRoute(
           path: '/',
-          builder: (context, state) => HomePage(title: "Test"),
+          builder: (context, state) => HomePage(title: "Stundenplan"),
         ),
         GoRoute(
           path: '/authenticate',
