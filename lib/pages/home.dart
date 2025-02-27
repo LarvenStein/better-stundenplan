@@ -4,6 +4,7 @@ import '../providers/authenticationProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import '../components/StundenplanWidget.dart';
+import '../providers/dateUtilities.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -57,6 +58,9 @@ class _MyHomePageState extends State<HomePage> {
     prefs.setString("sessionId", "");
     prefs.setString("email", "");
     prefs.setString("password", "");
+
+    context.pushReplacement('/authenticate');
+    return;
   }
 
   void chooseDate(BuildContext context) async {
@@ -94,13 +98,15 @@ class _MyHomePageState extends State<HomePage> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     checkAuth();
 
     // Aktuelles Datum für den angezeigten Index
     DateTime currentDate = _getDateForIndex(_currentPageIndex);
-    String formattedDate = _formatDate(currentDate);
+    String dateSpan = "${_formatDate(getNthDayOfWeek(currentDate, 1))} - ${_formatDate(getNthDayOfWeek(currentDate, 7))}";
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -113,12 +119,19 @@ class _MyHomePageState extends State<HomePage> {
                 icon: const Icon(Icons.logout),
                 onPressed: deleteAuth
             ),
-            Expanded(
+            TextButton(
               child: Text(
-                'Datum: $formattedDate',
+                dateSpan,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
+              onPressed: () {
+                setState(() {
+                  _currentPageIndex = 1000; // Zurück zur Ausgangsposition (aktuelle Woche)
+                  _pageController.jumpToPage(_currentPageIndex);
+                });
+              },
+
             ),
             IconButton(
                 tooltip: 'Datum auswählen',

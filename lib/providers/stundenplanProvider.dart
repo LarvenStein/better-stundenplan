@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 import 'package:html/parser.dart' as htmlParser;
 import 'package:html/dom.dart' as dom;
 
@@ -49,7 +48,7 @@ List<List<List<Map<String, String>>>> parseStundenplan(String htmlString) {
         }
 
         // Process each row
-        for (int i = 1; i < rows.length; i++) {
+        for (int i = 0; i < rows.length; i++) {
           List<dom.Element> cells = rows[i].querySelectorAll('td');
 
           // Process each cell in the row
