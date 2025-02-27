@@ -8,4 +8,3 @@ DateTime getNthDayOfWeek(DateTime date, int targetWeekday) {
 String formatDate(String format, DateTime date) {
   return DateFormat(format).format(date);
 }
-

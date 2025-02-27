@@ -15,10 +15,28 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   String _email = '';
   String _password = '';
 
+  void trySavedCredentials(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
+    String password = prefs.getString("password") ?? "";
+    String email = prefs.getString("email") ?? "";
+    print(email);
+    print(password);
+
+    var sessionId = await authenticateSession(email, password);
+    print(sessionId);
+    if(sessionId != null) {
+      prefs.setString("sessionId", sessionId);
+      context.pushReplacement('/');
+      return;
+
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    trySavedCredentials(context);
 
     return Scaffold(
       appBar: AppBar(

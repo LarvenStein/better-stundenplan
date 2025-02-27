@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../providers/authenticationProvider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import '../components/StundenplanWidget.dart';
 import '../providers/dateUtilities.dart';
@@ -25,6 +24,8 @@ class _MyHomePageState extends State<HomePage> {
   // Speichern des Basisdatums als State-Variable
   late DateTime _baseDate;
 
+  late bool _weeklyMode;
+
   // Map zum Cachen der StundenplanWidgets anhand des Datums (für Leistungsoptimierung)
   final Map<String, Widget> _cachedWidgets = {};
 
@@ -33,6 +34,7 @@ class _MyHomePageState extends State<HomePage> {
     super.initState();
     _baseDate = DateTime.now();
     _pageController = PageController(initialPage: _currentPageIndex);
+    _weeklyMode = true;
   }
 
   @override
@@ -43,9 +45,15 @@ class _MyHomePageState extends State<HomePage> {
 
   // Berechnet das Datum für einen bestimmten Page-Index
   DateTime _getDateForIndex(int index) {
-    // Berechne die Anzahl der Wochen relativ zum Basisdatum
-    int weeksDifference = index - 1000;
-    return _baseDate.add(Duration(days: weeksDifference * 7));
+    if (!_weeklyMode) {
+      // Tagesmodus: direkt den Tagesunterschied berechnen
+      int daysDifference = index - 1000;
+      return _baseDate.add(Duration(days: daysDifference));
+    } else {
+      // Wochenmodus: jede Seite steht für eine Woche
+      int weeksDifference = index - 1000;
+      return _baseDate.add(Duration(days: weeksDifference * 7));
+    }
   }
 
   // Formatiert ein Datum als String
@@ -53,15 +61,6 @@ class _MyHomePageState extends State<HomePage> {
     return DateFormat('dd.MM.yyyy').format(date);
   }
 
-  void deleteAuth() async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString("sessionId", "");
-    prefs.setString("email", "");
-    prefs.setString("password", "");
-
-    context.pushReplacement('/authenticate');
-    return;
-  }
 
   void chooseDate(BuildContext context) async {
     DateTime currentDate = _getDateForIndex(_currentPageIndex);
@@ -69,14 +68,18 @@ class _MyHomePageState extends State<HomePage> {
     DateTime? date = await showDatePicker(
       context: context,
       initialDate: currentDate,
-      firstDate: DateTime(currentDate.year - 1, currentDate.month, currentDate.day),
-      lastDate: DateTime(currentDate.year + 1, currentDate.month, currentDate.day),
+      firstDate: DateTime(
+          currentDate.year - 1, currentDate.month, currentDate.day),
+      lastDate: DateTime(
+          currentDate.year + 1, currentDate.month, currentDate.day),
     );
 
     // Wenn ein Datum ausgewählt wurde, berechne neuen Index und aktualisiere
     if (date != null) {
       // Berechne die Differenz in Tagen zum Basisdatum
-      int dayDifference = date.difference(_baseDate).inDays;
+      int dayDifference = date
+          .difference(_baseDate)
+          .inDays;
       // Teile durch 7 und runde, um die Wochendifferenz zu erhalten
       int weekDifference = (dayDifference / 7).round();
 
@@ -92,12 +95,11 @@ class _MyHomePageState extends State<HomePage> {
   void checkAuth() async {
     bool authStatus = await checkAuthentication();
 
-    if(!authStatus) {
+    if (!authStatus) {
       context.pushReplacement('/authenticate');
       return;
     }
   }
-
 
 
   @override
@@ -106,43 +108,64 @@ class _MyHomePageState extends State<HomePage> {
 
     // Aktuelles Datum für den angezeigten Index
     DateTime currentDate = _getDateForIndex(_currentPageIndex);
-    String dateSpan = "${_formatDate(getNthDayOfWeek(currentDate, 1))} - ${_formatDate(getNthDayOfWeek(currentDate, 7))}";
+    String dateSpan = _weeklyMode
+        ? "${_formatDate(getNthDayOfWeek(currentDate, 1))} - ${_formatDate(
+        getNthDayOfWeek(currentDate, 7))}"
+        : _formatDate(currentDate);
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.onInverseSurface,
+        color: Theme
+            .of(context)
+            .colorScheme
+            .onInverseSurface,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-                tooltip: 'Delete auth',
-                icon: const Icon(Icons.logout),
-                onPressed: deleteAuth
+              tooltip: 'Tagesansicht',
+              onPressed: () {
+                setState(() {
+                  _weeklyMode = !_weeklyMode;
+                  _cachedWidgets.clear();
+                });
+                _pageController.jumpToPage(
+                    _currentPageIndex); // Neuladen erzwingen
+              },
+              icon: _weeklyMode
+                ? Icon(Icons.zoom_in)
+                : Icon(Icons.zoom_out),
             ),
             TextButton(
               child: Text(
                 dateSpan,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyMedium,
               ),
               onPressed: () {
                 setState(() {
-                  _currentPageIndex = 1000; // Zurück zur Ausgangsposition (aktuelle Woche)
+                  _currentPageIndex =
+                  1000; // Zurück zur Ausgangsposition (aktuelles Datum)
                   _pageController.jumpToPage(_currentPageIndex);
                 });
               },
-
             ),
             IconButton(
-                tooltip: 'Datum auswählen',
-                icon: const Icon(Icons.calendar_today),
+              tooltip: 'Datum auswählen',
+              icon: const Icon(Icons.calendar_month),
               onPressed: () => chooseDate(context),
-            )
+            ),
           ],
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surfaceDim,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .surfaceDim,
         title: Text(widget.title),
       ),
       body: PageView.builder(
@@ -152,7 +175,6 @@ class _MyHomePageState extends State<HomePage> {
             _currentPageIndex = index;
           });
         },
-        // Quasi unendlicher Bereich von Pages
         itemCount: 2000,
         itemBuilder: (context, index) {
           // Datum für diesen Index berechnen
@@ -161,13 +183,13 @@ class _MyHomePageState extends State<HomePage> {
 
           // Überprüfen, ob ein Widget für dieses Datum bereits im Cache ist
           if (!_cachedWidgets.containsKey(formattedDate)) {
-            _cachedWidgets[formattedDate] = StundenplanWidget(date: formattedDate);
+            _cachedWidgets[formattedDate] =
+                StundenplanWidget(date: formattedDate, weeklyMode: _weeklyMode);
           }
 
           return SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                // Verwenden des gecachten Widgets
                 _cachedWidgets[formattedDate]!,
               ],
             ),
