@@ -110,6 +110,11 @@ class _StundenplanWidgetState extends State<StundenplanWidget> {
                                                     if(widget.weeklyMode) {
                                                       date = formatDate('dd.MM.yyyy', getNthDayOfWeek(DateFormat("dd.MM.yyyy").parse(widget.date), i));
                                                     }
+
+                                                    if(stundenplan[i][j][k]["lesson"] == "" && stundenplan[i][j][k]["room"] == "") {
+                                                      return;
+                                                    }
+
                                                     context.push(
                                                         "/details"
                                                             "?lesson=${stundenplan[i][j][k]["lesson"] ?? ''}"
