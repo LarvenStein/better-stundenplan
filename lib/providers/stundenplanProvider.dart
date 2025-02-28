@@ -112,10 +112,10 @@ Map<String, String> parseLessonData(String lessonText) {
 
   List<String> parts = lessonText.split(RegExp(r'[(),]+')); // Split on commas and parentheses
   if (parts.isNotEmpty) {
-    lessonData['lesson'] = parts[0].trim(); // Lesson is the first part
+    lessonData['teacher'] = parts[0].trim(); // Lesson is the first part
 
     if (parts.length > 1) {
-      lessonData['teacher'] = parts[1].trim(); // Teacher is the second part
+      lessonData['lesson'] = parts[1].trim(); // Teacher is the second part
     }
 
     if (parts.length > 2) {

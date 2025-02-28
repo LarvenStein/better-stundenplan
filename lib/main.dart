@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:go_router/go_router.dart';
-import 'pages/home.dart';
-import 'pages/authenticate.dart';
+import 'pages/HomePage.dart';
+import 'pages/AuthenticationPage.dart';
 import 'providers/authenticationProvider.dart';
+import 'pages/DetailsPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Wichtig für async in main()
@@ -42,6 +43,18 @@ class MyApp extends StatelessWidget {
           path: '/authenticate',
           builder: (context, state) => const AuthenticationPage(),
         ),
+        GoRoute(
+          path: '/details',
+          builder: (BuildContext context, GoRouterState state) {
+            return DetailsPage(
+                lesson: state.uri.queryParameters['lesson']!,
+                teacher: state.uri.queryParameters['teacher']!,
+                room: state.uri.queryParameters['room']!,
+                date: state.uri.queryParameters['date']!,
+                hour: state.uri.queryParameters['hour']!,
+            );
+          }
+        )
       ],
     );
 
