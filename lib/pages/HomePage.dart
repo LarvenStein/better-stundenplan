@@ -4,6 +4,8 @@ import '../providers/authenticationProvider.dart';
 import 'package:intl/intl.dart';
 import '../components/StundenplanWidget.dart';
 import '../providers/dateUtilities.dart';
+import '../components/AccountPopup.dart';
+import '../providers/userDataProvider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -29,12 +31,30 @@ class _MyHomePageState extends State<HomePage> {
   // Map zum Cachen der StundenplanWidgets anhand des Datums (für Leistungsoptimierung)
   final Map<String, Widget> _cachedWidgets = {};
 
+  // Cached profile picture
+  Widget? _cachedProfilePicture;
+
   @override
   void initState() {
     super.initState();
     _baseDate = DateTime.now();
     _pageController = PageController(initialPage: _currentPageIndex);
     _weeklyMode = true;
+    _loadProfilePicture();
+  }
+
+  // Method to load profile picture once
+  void _loadProfilePicture() async {
+    try {
+      Widget profilePicture = await getUserProfilePicture();
+      setState(() {
+        _cachedProfilePicture = profilePicture;
+      });
+    } catch (e) {
+      setState(() {
+        _cachedProfilePicture = null;
+      });
+    }
   }
 
   @override
@@ -60,7 +80,6 @@ class _MyHomePageState extends State<HomePage> {
   String _formatDate(DateTime date) {
     return DateFormat('dd.MM.yyyy').format(date);
   }
-
 
   void chooseDate(BuildContext context) async {
     DateTime currentDate = _getDateForIndex(_currentPageIndex);
@@ -101,7 +120,6 @@ class _MyHomePageState extends State<HomePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     checkAuth();
@@ -115,10 +133,7 @@ class _MyHomePageState extends State<HomePage> {
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Theme
-            .of(context)
-            .colorScheme
-            .onInverseSurface,
+        color: Theme.of(context).colorScheme.onInverseSurface,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -133,17 +148,14 @@ class _MyHomePageState extends State<HomePage> {
                     _currentPageIndex); // Neuladen erzwingen
               },
               icon: _weeklyMode
-                ? Icon(Icons.zoom_in)
-                : Icon(Icons.zoom_out),
+                  ? Icon(Icons.zoom_in)
+                  : Icon(Icons.zoom_out),
             ),
             TextButton(
               child: Text(
                 dateSpan,
                 textAlign: TextAlign.center,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               onPressed: () {
                 setState(() {
@@ -162,11 +174,16 @@ class _MyHomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .surfaceDim,
+        backgroundColor: Theme.of(context).colorScheme.surfaceDim,
         title: Text(widget.title),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              show(context);
+            },
+            child: _cachedProfilePicture,
+          )
+        ],
       ),
       body: PageView.builder(
         controller: _pageController,

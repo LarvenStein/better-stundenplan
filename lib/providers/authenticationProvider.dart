@@ -61,3 +61,10 @@ Future<String?> authenticateSession(String email, String password) async {
     return sessionId;
 }
 
+Future<void> deleteAuthentication() async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString("sessionId", "");
+    prefs.setString("email", "");
+    prefs.setString("passowrd", "");
+
+}
