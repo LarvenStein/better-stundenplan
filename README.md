@@ -27,4 +27,4 @@ Zeigt detaillierte Informationen zu einer Unterrichtsstunde an. Hier können zud
 ## 📥 Installation  
 Aktuell stelle ich nur einen .apk Download für die App bereit. Zukünftig Veröffentliche ich sie vielleicht in einigen Stores :)
 
-[![](/images/apk-badge.png)](https://github.com/LarvenStein/better-stundenplan/releases)
+[![](https://better-stundenplan.eike.in/images/apk-badge.png)](https://github.com/LarvenStein/better-stundenplan/releases)
