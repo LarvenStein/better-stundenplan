@@ -7,26 +7,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
 
-    - name: Install Flutter
-      uses: subosito/flutter-action@v1
+    - name: Clone repository
+
+      uses: actions/checkout@v4
+
+    - name: Set up Flutter
+
+      uses: subosito/flutter-action@v2
+
       with:
-        flutter-version: '2.5.3'
 
-    - name: Get Flutter Dependencies
-      run: flutter pub get
+        channel: stable
 
-    - name: Build APK
-      run: |
-        flutter build apk
+        flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
-    - name: Upload APK as Artifact
+    - run: flutter pub get
+    #- run: flutter test
+    - run: flutter build apk
+    
+    - name: Upload apk
       uses: actions/upload-artifact@v4
+
       with:
-        name: app-release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        name: release-apk
+        path: |
+          build/app/outputs/flutter-apk/app-release.apk
+
 
   release:
     needs: build
