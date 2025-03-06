@@ -4,8 +4,9 @@ import '../providers/authenticationProvider.dart';
 
 void showAccountPopup(BuildContext context) {
   var simpleDialog = SimpleDialog(
-    title: Text('Account'),
+    title: Text('Better Stundenplan'),
     children: [
+      Divider(),
       GestureDetector(
         onTap: () {
           deleteAuthentication();
@@ -20,10 +21,8 @@ void showAccountPopup(BuildContext context) {
             ),
           )
         ),
-      ),
-
-
-    ],
+      )
+  ],
   );
 
   showDialog(
