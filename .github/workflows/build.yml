@@ -56,6 +56,6 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        tag: ${{ env.VERSION }}
+        tag_name: ${{ env.VERSION }}
         name: Release ${{ env.VERSION }}
         files: app-release-apk/app-release.apk
