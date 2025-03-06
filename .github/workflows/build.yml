@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
     - name: Clone repository
       uses: actions/checkout@v4
 
@@ -34,7 +33,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Download APK Artifact
       uses: actions/download-artifact@v4
@@ -56,12 +55,13 @@ jobs:
         release_name: Release ${{ env.VERSION }}
         draft: false
         prerelease: false
+
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: app-release.apk
+        asset_path: build/app/outputs/flutter-apk/app-release.apk
         asset_name: app-release.apk
         asset_content_type: application/apk
