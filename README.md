@@ -25,9 +25,6 @@ Zeigt detaillierte Informationen zu einer Unterrichtsstunde an. Hier können zud
 ![Detailansicht](https://github.com/user-attachments/assets/c657e582-94c8-47e5-b54b-1425fa59237b)  
 
 ## 📥 Installation  
+Aktuell stelle ich nur einen .apk Download für die App bereit. Zukünftig Veröffentliche ich sie vielleicht in einigen Stores :)
 
-Derzeit gibt es noch keine offizielle Download-Version der App. Wer interessiert ist, kann das Repository klonen und selbst experimentieren.  
-
-**Zukünftige Pläne:**  
-📲 Veröffentlichung auf **F-Droid** und im **Google Play Store**, sobald die App in einem stabilen Zustand ist.  
-❌ Eine **Web- oder iOS-Version** ist aktuell nicht geplant.  
+[![](/images/apk-badge.png)](https://github.com/LarvenStein/better-stundenplan/releases)
