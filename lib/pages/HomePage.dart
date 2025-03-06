@@ -179,7 +179,7 @@ class _MyHomePageState extends State<HomePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              show(context);
+              showAccountPopup(context);
             },
             child: _cachedProfilePicture,
           )

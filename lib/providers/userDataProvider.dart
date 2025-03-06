@@ -21,10 +21,13 @@ Future<Widget> getUserProfilePicture() async {
       String? imageBase64 = getTheImage(response.body);
 
       if (imageBase64 != null) {
-        return ClipOval(
-          child: SizedBox.fromSize(
-            size: Size.fromRadius(24), // Image radius
-            child: Image.memory(base64Decode(imageBase64), fit: BoxFit.cover,),
+        return Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: ClipOval(
+            child: SizedBox.fromSize(
+              size: Size.fromRadius(20), // Image radius
+              child: Image.memory(base64Decode(imageBase64), fit: BoxFit.cover,),
+            ),
           ),
         );
       } else {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../providers/authenticationProvider.dart';
 
-void show(BuildContext context) {
+void showAccountPopup(BuildContext context) {
   var simpleDialog = SimpleDialog(
     title: Text('Account'),
     children: [
