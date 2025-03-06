@@ -46,7 +46,7 @@ jobs:
     - name: Download APK Artifact
       uses: actions/download-artifact@v4
       with:
-        name: app-release-apk
+        name: release-apk
 
     - name: Set Version Environment Variable
       run: |
