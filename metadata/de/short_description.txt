@@ -1,0 +1,1 @@
+Ein (hoffentlich) nicht ganz so schlechter Client für virtueller-stundenplan.org
