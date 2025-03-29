@@ -53,42 +53,21 @@ List<List<List<Map<String, String>>>> parseStundenplan(String htmlString) {
 
           // Process each cell in the row
           for (int j = 0; j < cells.length; j++) {
-            String cellText = cells[j].text.trim();
-
-            if(cellText == '-') {
-              cellText = ' ';
-            }
-
             List<Map<String, String>> cellData = [];
-            //Handle non-prefixed
-            if (!cellText.contains('A:') && !cellText.contains('B:')) {
+
+            for(dom.Node thing in cells[j].nodes) {
+              String cellText = thing.text!;
+
+              if(cellText  == '-') {
+                cellText = ' ';
+              }
+
+              if(cellText  == '') {
+                continue;
+              }
+
               cellData.add(parseLessonData(cellText));
             }
-
-            // Collect A and B information
-            List<String> aInfo = [];
-            List<String> bInfo = [];
-
-            List<String> parts = cellText.split(RegExp(r'(?=[AB]:)'));
-            for (String part in parts) {
-              part = part.trim();
-              if (part.startsWith('A:')) {
-                aInfo.add(part);
-              } else if (part.startsWith('B:')) {
-                bInfo.add(part);
-              }
-            }
-
-            // Add A information as one element
-            if (aInfo.isNotEmpty) {
-              cellData.add(parseLessonData(aInfo.join(', '))); // Join aInfo
-            }
-            // Add B information as one element
-            if (bInfo.isNotEmpty) {
-              cellData.add(parseLessonData(bInfo.join(', '))); // Join bInfo
-            }
-
-
 
             stundenplanData[j].add(cellData); // Append to the column instead of row
           }
