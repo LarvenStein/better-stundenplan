@@ -1,7 +1,9 @@
 name: Build and Release App
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -50,6 +52,7 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions: write-all
 
     steps:
     - name: Checkout repository
