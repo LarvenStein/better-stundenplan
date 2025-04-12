@@ -1,0 +1,10 @@
+<!-- Summary -->
+<p>Ein (hoffentlich) nicht ganz so schlechter Client für "virtueller-stundenplan.org".</p>
+
+<!-- Features -->
+<p><strong>Funktionen:</strong></p>
+<ul>
+  <li>Wochenansicht: Zeigt den Stundenplan für eine ganze Woche an.</li>
+  <li>Tagesansicht: Zeigt den Stundenplan für einen einzelnen Tag an.</li>
+  <li>Detailansicht: Zeigt Details zu Unterrichtsstunden und ermöglicht Aliasse für Fächer, Lehrkräfte und Räume.</li>
+</ul>

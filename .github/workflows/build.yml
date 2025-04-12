@@ -20,8 +20,24 @@ jobs:
         channel: stable
         flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
+    - name: Decode Keystore
+      run: echo $ENCODED_STRING | base64 -di > release.jks
+      env:
+        ENCODED_STRING: ${{ secrets.KEYSTORE }}
+
     - run: flutter pub get
     #- run: flutter test
+    - run: |
+          cd android
+          touch key.properties
+          echo storePassword=$RELEASE_STOREPASSWORD >> key.properties
+          echo keyPassword=$RELEASE_KEYPASSWORD >> key.properties
+          echo keyAlias=$RELEASE_KEYALIAS >> key.properties
+      env:
+          RELEASE_STOREPASSWORD: ${{ secrets.RELEASE_STOREPASSWORD }}
+          RELEASE_KEYPASSWORD: ${{ secrets.RELEASE_KEYPASSWORD }}
+          RELEASE_KEYALIAS: ${{ secrets.RELEASE_KEYALIAS }}
+
     - run: flutter build apk
     
     - name: Upload apk
