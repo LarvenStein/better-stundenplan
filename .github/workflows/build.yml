@@ -23,7 +23,7 @@ jobs:
         flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
     - name: Decode Keystore
-      run: echo $ENCODED_STRING | base64 -di > /home/runner/work/better-stundenplan/release.jks
+      run: echo $ENCODED_STRING | base64 -di > /home/runner/work/better-stundenplan/upload-keystore.jks
       env:
         ENCODED_STRING: ${{ secrets.KEYSTORE }}
 
@@ -35,7 +35,7 @@ jobs:
           echo storePassword=$RELEASE_STOREPASSWORD >> key.properties
           echo keyPassword=$RELEASE_KEYPASSWORD >> key.properties
           echo keyAlias=$RELEASE_KEYALIAS >> key.properties
-          echo storeFile=/home/runner/work/better-stundenplan/release.jks >> key.properties
+          echo storeFile=/home/runner/work/better-stundenplan/upload-keystore.jks >> key.properties
       env:
           RELEASE_STOREPASSWORD: ${{ secrets.RELEASE_STOREPASSWORD }}
           RELEASE_KEYPASSWORD: ${{ secrets.RELEASE_KEYPASSWORD }}
