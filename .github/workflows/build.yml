@@ -35,6 +35,7 @@ jobs:
           echo storePassword=$RELEASE_STOREPASSWORD >> key.properties
           echo keyPassword=$RELEASE_KEYPASSWORD >> key.properties
           echo keyAlias=$RELEASE_KEYALIAS >> key.properties
+          echo storeFile=release.jks >> key.properties
       env:
           RELEASE_STOREPASSWORD: ${{ secrets.RELEASE_STOREPASSWORD }}
           RELEASE_KEYPASSWORD: ${{ secrets.RELEASE_KEYPASSWORD }}
