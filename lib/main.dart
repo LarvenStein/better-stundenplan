@@ -68,11 +68,23 @@ class MyApp extends StatelessWidget {
           colorScheme: lightColorScheme ?? _defaultLightColorScheme,
           brightness: Brightness.light,
           useMaterial3: true,
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              // Set the predictive back transitions for Android.
+              TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+            },
+          ),
         ),
         darkTheme: ThemeData(
           colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
           brightness: Brightness.dark,
           useMaterial3: true,
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              // Set the predictive back transitions for Android.
+              TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+            },
+          ),
         ),
       );
     });
