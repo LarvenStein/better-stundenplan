@@ -1,6 +1,3 @@
-<!-- Summary -->
-<p>Ein (hoffentlich) nicht ganz so schlechter Client für "virtueller-stundenplan.org".</p>
-
 <!-- Features -->
 <p><strong>Funktionen:</strong></p>
 <ul>
