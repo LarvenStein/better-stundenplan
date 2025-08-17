@@ -14,6 +14,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  String error = 'Beachte, dass die Zugangsdaten UNVERSCHLÜSSELT gespeichert werden!';
+
 
   void trySavedCredentials(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
@@ -46,7 +48,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Beachte, dass die Zugangsdaten UNVERSCHLÜSSELT gespeichert werden!',
+              error,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.error
               ),
@@ -134,8 +136,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       prefs.setString("email", _email);
       prefs.setString("password", _password);
       context.pushReplacement('/');
-      
+      return;
     }
+    setState(() {
+      error = 'Anmeldung fehlgeschlagen :/';
+    });
   }
 
 }

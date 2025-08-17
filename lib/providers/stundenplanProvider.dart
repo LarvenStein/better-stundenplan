@@ -89,7 +89,7 @@ Map<String, String> parseLessonData(String lessonText) {
   // Refined parsing logic
   lessonText = lessonText.replaceAll(RegExp(r'^[AB]:'), '').trim();
 
-  List<String> parts = lessonText.split(RegExp(r'[(),]+')); // Split on commas and parentheses
+  List<String> parts = lessonText.split(RegExp(r'[(),\[\]]+')); // Split on commas and parentheses
   if (parts.isNotEmpty) {
     lessonData['teacher'] = parts[0].trim(); // Lesson is the first part
 
