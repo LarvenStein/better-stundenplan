@@ -2,10 +2,10 @@
 
 Ein (hoffentlich) nicht ganz so schlechter Client für [virtueller-stundenplan.org](https://virtueller-stundenplan.org).  
 
-Dieses Projekt entsteht im Rahmen eines Schulprojekts, in dem wir mit Unterstützung Künstlicher Intelligenz eine App entwickeln.  
+Dieses Projekt entsteht im Rahmen eines Schulprojekts, in dem wir mit Unterstützung Künstlicher Intelligenz eine App entwickeln.
 
 > [!IMPORTANT]
-> Die App befindet sich noch in der Entwicklung und erfordert weitere Arbeit.  
+> **ACHTUNG:** Der Code könnte absolut grauenhaft sein!  
 
 ## 📌 Features  
 

@@ -39,7 +39,7 @@ class _MyHomePageState extends State<HomePage> {
     super.initState();
     _baseDate = DateTime.now();
     _pageController = PageController(initialPage: _currentPageIndex);
-    _weeklyMode = true;
+    _weeklyMode = false;
     _loadProfilePicture();
   }
 
